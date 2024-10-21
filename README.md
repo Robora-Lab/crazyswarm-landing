@@ -50,6 +50,9 @@ pose:
 
 12. In the second terminal navigate the the scripts folder `cd ros_ws/src/crazyswarm/scripts` and start the MPC using `python3 run_UAV_exp.py`. Flight data will be collected in `~/crazyswarm/ros_ws/src/crazyswarm/scripts/MPC_take2/data/node_data.csv` and the data can be visualized by running `python3 plots.py`.
 
+## Demo
+In order to run a demo of the landing use the `live_plot.py` file located in [Demo](./Demo/). Before starting the demo ensure the vehicles are placed in the MoCap space, and preliminary goals are initialized as per the instructions above for the Crazyflie setup and the Husky setup instructions found at https://github.com/Robora-Lab/husky_landing. Then the `live_plot.py` file can be run on any computer that is connected to the multi-master-setup (the computer requires access to the position and goal topics).
+
 ## Modified Files
 `~/crazyswarm/ros_ws/src/pubCF.py`
 
