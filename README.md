@@ -23,7 +23,7 @@ The following instructions will set up the cooperative MPC for Crazyflie and Hus
 
 You should now be able to run the MPC on the Crazyflie.
 
-9. First ensure that the master node that is run by the Husky is prepared. To do this follow the instructions found at https://github.com/Robora-Lab/husky_landing. Then you can open a terminal window and set a preliminary goal for the Crazyflie on the topic */goalPoseCF*.
+9. First ensure that the master node that is run by the Husky is prepared. To do this follow the instructions found at https://github.com/Robora-Lab/husky_landing. Ensure that the device running the Crazyflie is able to communicate with the Husky by setting the ROS_MASTER_URI variable in `.bashrc ` do this using `nano .bashrc` and write two lines at the end of the code specifying `export ROS_MASTER_URI=http://ip addr of Husky` and `export ROS_IP=ip addr your machine`. Then you can open a terminal window and set a preliminary goal for the Crazyflie on the topic */goalPoseCF*.
 
 ```bash
 rostopic pub /goalPoseCF geometry_msgs/PoseStamped "header:
