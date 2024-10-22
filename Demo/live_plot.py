@@ -1,7 +1,10 @@
+#plot dimensions are meant for a large display screen
+
 import rospy
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Float64
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 
 x_pos_h = []
@@ -14,7 +17,7 @@ x_goal_cf = []
 y_goal_cf = []
 
 def compTilt(time):
-    x = np.linspace(-3, 3, 250)
+    x = np.linspace(-3.4, 3, 200)
     y = np.linspace(-3, 3, 1)
     x, y = np.meshgrid(x, y)
     theta = 8 * (x + 3.5) * np.sin(np.pi * (time + x))
@@ -67,22 +70,29 @@ def live_plot():
     fig, ax = plt.subplots(figsize=(12, 12))
 
     line_h_pos, = ax.plot([], [], 'r', lw=2, label='Husky Position')
-    line_h_goal, = ax.plot([], [], 'r--', lw=2, label='Husky Goal Position')
-    line_cf_pos, = ax.plot([], [], 'b', lw=2, label='Crazyflie Position')
-    line_cf_goal, = ax.plot([], [], 'b--', lw=2, label='Crazyflie Goal Position')
+    line_h_goal, = ax.plot([], [], 'r--', lw=2, label='Husky Goal')
+    line_cf_pos, = ax.plot([], [],'b', lw=2, label='Crazyflie Position')
+    line_cf_goal, = ax.plot([], [],'b--', lw=2, label='Crazyflie Goal')
 
     
-    marker_husky, = ax.plot([], [], 'rs', markersize=10)
-    marker_crazyflie, = ax.plot([], [], 'b^', markersize=10)
-    marker_husky_goal, = ax.plot([], [], 'ro', markersize=7)
-    marker_crazyflie_goal, = ax.plot([], [], 'bo', markersize=7)
+    marker_husky, = ax.plot([], [], 'rs', markersize=30)
+    marker_crazyflie, = ax.plot([], [], 'b^', markersize=30)
+    marker_husky_goal, = ax.plot([], [], 'ro', markersize=25)
+    marker_crazyflie_goal, = ax.plot([], [], 'bo', markersize=25)
 
-    ax.set_xlim(3, -3)
+    custom_legend_handles = [
+    Line2D([0], [0], color='r', lw=2, marker='s', markersize=15, label='Husky Position'),
+    Line2D([0], [0], color='r', lw=2, linestyle='--', marker='o', markersize=15, label='Husky Goal'),
+    Line2D([0], [0], color='b', lw=2, marker='^', markersize=15, label='Crazyflie Position'),
+    Line2D([0], [0], color='b', lw=2, linestyle='--', marker='o', markersize=15, label='Crazyflie Goal')
+]
+
+    ax.set_xlim(3, -3.4)
     ax.set_ylim(3, -3)
-    ax.set_xlabel('X Position (m)')
-    ax.set_ylabel('Y Position (m)')
-    ax.set_title('Crazyflie Husky Landing')
-    ax.legend(loc='lower right')
+    ax.set_xlabel('X Position (m)', fontsize=18)
+    ax.set_ylabel('Y Position (m)', fontsize=18)
+    ax.legend(handles=custom_legend_handles, loc='lower right', fontsize=22)
+    ax.tick_params(axis='both', which='major', labelsize=16)
 
     rate = rospy.Rate(10)  #10 Hz update rate
 
@@ -97,9 +107,12 @@ def live_plot():
                     im = plt.imshow(
                         output,
                         cmap='Blues',
-                        extent=[-3, 3, 3, -3],
+			alpha=0.7,
+                        extent=[-3.4, 3, 3, -3],
                         origin='lower')
                     colorbar = plt.colorbar(im, ax=ax, label='Wave Tilt Squared ($^\circ$)')
+                    colorbar.set_label('Wave Tilt Squared ($^\circ$)', fontsize=18)
+                    colorbar.ax.tick_params(labelsize=16)
                 else:
                     im.set_array(output)
 
